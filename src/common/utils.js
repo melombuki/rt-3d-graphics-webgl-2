@@ -1,46 +1,4 @@
-import { vertexShaderText } from '../shaders/vert-shader';
-import { fragmentShaderText } from '../shaders/frag-shader';
 import * as dat from 'dat.gui';
-
-export const initProgram = gl => {
-  //
-  // Create shaders
-  // 
-  let vertexShader = getShader(gl, vertexShaderText, gl.VERTEX_SHADER);
-  let fragmentShader = getShader(gl, fragmentShaderText, gl.FRAGMENT_SHADER);
-
-  //
-  // Create program
-  let program = gl.createProgram();
-
-  gl.attachShader(program, vertexShader);
-  gl.attachShader(program, fragmentShader);
-  gl.linkProgram(program);
-
-  if (!gl.getProgramParameter(program, gl.LINK_STATUS)) {
-    console.error('ERROR linking program!', gl.getProgramInfoLog(program));
-    return;
-  }
-
-  gl.validateProgram(program);
-  if (!gl.getProgramParameter(program, gl.VALIDATE_STATUS)) {
-    console.error('ERROR validating program!', gl.getProgramInfoLog(program));
-    return;
-  }
-
-  gl.useProgram(program);
-
-  program.aVertexPosition = gl.getAttribLocation(program, 'aVertexPosition');
-  program.aVertexNormal = gl.getAttribLocation(program, 'aVertexNormal');
-  program.uProjectionMatrix = gl.getUniformLocation(program, 'uProjectionMatrix');
-  program.uModelViewMatrix = gl.getUniformLocation(program, 'uModelViewMatrix');
-  program.uNormalMatrix = gl.getUniformLocation(program, 'uNormalMatrix');
-  program.uMaterialDiffuse = gl.getUniformLocation(program, 'uMaterialDiffuse');
-  program.uLightDiffuse = gl.getUniformLocation(program, 'uLightDiffuse');
-  program.uLightDirection = gl.getUniformLocation(program, 'uLightDirection');
-
-  return program;
-}
 
 export const getGLContext = canvas => {
   return canvas.getContext('webgl2') || console.error('WebGL2 is not available in your browser.');
@@ -64,7 +22,8 @@ export const getShader = (gl, shaderString, shaderType) => {
 
   gl.compileShader(shader);
   if (!gl.getShaderParameter(shader, gl.COMPILE_STATUS)) {
-    console.error('ERROR compiling shader!', gl.getShaderInfoLog(shader));
+    console.error(`ERROR compiling ${shaderType} shader!`, gl.getShaderInfoLog(shader));
+    console.error(shaderString);
     return null;
   }
 
