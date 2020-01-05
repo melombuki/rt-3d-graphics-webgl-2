@@ -23,14 +23,9 @@ export const vertexShaderText =
   in vec3 aVertexNormal;
   
   out vec4 vVertexColor;
-  
-  // Texture
-  out vec2 vTexCoord;
 
   void main(void)
   {
-    vTexCoord = aVertexPosition.xy * 0.5 + vec2(0.5);
-
     vec4 vertex = uModelViewMatrix * vec4(aVertexPosition, 1.0);
 
     // Calculate the normal vector

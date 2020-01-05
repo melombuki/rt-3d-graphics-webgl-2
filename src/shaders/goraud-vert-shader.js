@@ -12,15 +12,11 @@ export const vertexShaderText =
 
   in vec3 aVertexPosition;
   in vec3 aVertexNormal;
-
-  out vec2 vTexCoord;
+  
   out vec4 vVertexColor;
 
   void main()
   {
-    vTexCoord = aVertexPosition.xy * 0.5 + vec2(0.5);
-    //gl_Position = vec4(aVertexPosition, 1.0);
-
     // Calculate the normal vector
     vec3 N = normalize(vec3(uNormalMatrix * vec4(aVertexNormal, 1.0)));
 

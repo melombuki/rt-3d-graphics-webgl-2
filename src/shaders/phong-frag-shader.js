@@ -18,9 +18,6 @@ export const fragmentShaderText =
   in vec3 vNormal;
   in vec3 vEyeVector;
 
-  in vec2 vTexCoord;
-  uniform sampler2D image;
-
   out vec4 fragmentColor;
 
   void main(void)
@@ -52,6 +49,6 @@ export const fragmentShaderText =
     // Set the varying to be used inside of the fragment shader
     vec4 vertexColor = vec4(vec3(Ia + Id + Is), 1.0);
 
-    fragmentColor = vertexColor * vec4(texture(image, vTexCoord));
+    fragmentColor = vertexColor;
   }
 `;

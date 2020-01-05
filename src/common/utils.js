@@ -2,7 +2,19 @@ import * as dat from 'dat.gui';
 
 export const getGLContext = canvas => {
   return canvas.getContext('webgl2') || console.error('WebGL2 is not available in your browser.');
-}
+};
+
+// Find and return a DOM element given an ID
+export const getCanvas = (id) => {
+  const canvas = document.getElementById(id);
+
+  if (!canvas) {
+    console.error(`There is no canvas with id ${id} on this page.`);
+    return null;
+  }
+
+  return canvas;
+};
 
 export const autoResizeCanvas = canvas => {
   const expandFullScreen = () => {
@@ -13,7 +25,7 @@ export const autoResizeCanvas = canvas => {
 
   expandFullScreen();
   window.addEventListener('resize', debounced);
-}
+};
 
 export const getShader = (gl, shaderString, shaderType) => {
   let shader = gl.createShader(shaderType);
@@ -28,7 +40,7 @@ export const getShader = (gl, shaderString, shaderType) => {
   }
 
   return shader;
-}
+};
 
 // Normalize colors from 0-255 to 0-1
 export const normalizeColor = (color) => {
@@ -186,7 +198,7 @@ export const configureControls = (settings, options = { width: 300 }) => {
     }
     if (isFolder(settingValue)) {
       // If it's a folder, recursively call with folder as root settings element
-      return utils.configureControls(settingValue, { gui: gui.addFolder(key) });
+      return configureControls(settingValue, { gui: gui.addFolder(key) });
     }
 
     const {
